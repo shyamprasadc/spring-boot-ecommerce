@@ -44,7 +44,6 @@ public class ProductSeeder {
                     null,
                     null
             );
-
             productRepository.saveAll(
                     List.of(p1,p2,p3)
             );
