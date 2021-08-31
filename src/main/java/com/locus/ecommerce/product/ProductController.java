@@ -1,10 +1,10 @@
 package com.locus.ecommerce.product;
 
-import com.locus.ecommerce.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "products")
@@ -19,6 +19,11 @@ public class ProductController {
     @GetMapping
     public List<Product> getProducts() {
         return productService.getProducts();
+    }
+
+    @GetMapping(path = "{productId}")
+    public Optional<Product> getOneProduct(@PathVariable("productId") Long productId) {
+        return productService.getOneProduct(productId);
     }
 
     @PostMapping

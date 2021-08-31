@@ -15,6 +15,7 @@ public class User {
    private String name;
    private String email;
    private String phone;
+   private String password;
    private int type;
    private String address;
    private String city;
@@ -28,21 +29,23 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, String email, String phone, Integer type, String address, String city, String postcode) {
+    public User(Long id, String name, String email, String phone, String password, Integer type, String address, String city, String postcode) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.password = password;
         this.type = type;
         this.address = address;
         this.city = city;
         this.postcode = postcode;
     }
 
-    public User(String name, String email, String phone, Integer type, String address, String city, String postcode) {
+    public User(String name, String email, String phone, String password, Integer type, String address, String city, String postcode) {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.password = password;
         this.type = type;
         this.address = address;
         this.city = city;
@@ -79,6 +82,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getType() {

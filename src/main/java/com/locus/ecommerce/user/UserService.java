@@ -31,7 +31,7 @@ public class UserService {
         if(userByPhone.isPresent()){
             throw new IllegalStateException("User With Phone Already Exists");
         }
-
+        user.setType(1);
         userRepository.save(user);
     }
 
@@ -44,7 +44,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(Long userId,String name,String email,String phone) {
+    public void updateUser(Long userId,String name,String email,String phone,String address,String city,String postcode ) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("User Not Found"));
 
@@ -57,6 +57,18 @@ public class UserService {
                 throw new IllegalStateException("User With Email Already Exists");
             }
             user.setEmail(email);
+        }
+        if (phone != null && phone.length() > 0 && !Objects.equals(user.getPhone(), phone)) {
+            user.setPhone(phone);
+        }
+        if (address != null && address.length() > 0 && !Objects.equals(user.getAddress(), address)) {
+            user.setAddress(address);
+        }
+        if (city != null && city.length() > 0 && !Objects.equals(user.getCity(), city)) {
+            user.setCity(city);
+        }
+        if (postcode != null && postcode.length() > 0 && !Objects.equals(user.getPostcode(), postcode)) {
+            user.setPostcode(postcode);
         }
     }
 }

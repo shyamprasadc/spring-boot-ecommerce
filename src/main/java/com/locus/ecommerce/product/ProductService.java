@@ -19,13 +19,21 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public Optional<Product> getOneProduct(Long productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        if(!product.isPresent()){
+            throw new IllegalStateException("Product Not Found");
+        }
+        return product;
+    }
+
     public void addNewProduct(Product product) {
         Optional<Product> productBySku = productRepository.findProductBySku(product.getSku());
 
         if (productBySku.isPresent()) {
             throw new IllegalStateException("Product With SKU Already Exists");
         }
-
+        product.setStatus(1);
         productRepository.save(product);
     }
 
@@ -62,4 +70,5 @@ public class ProductService {
             product.setRegularPrice(status);
         }
     }
+
 }

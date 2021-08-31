@@ -35,9 +35,12 @@ public class UserController {
             @PathVariable("userId") Long userId,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email,
-            @RequestParam(required = false) String phone
-    ){
-        userService.updateUser(userId,name,email,phone);
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String postcode
+            ){
+        userService.updateUser(userId,name,email,phone,address,city,postcode);
     }
 
 }
