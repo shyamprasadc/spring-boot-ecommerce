@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "users")
@@ -33,13 +34,15 @@ public class UserController {
     @PutMapping(path="{userId}")
     public void updateUser(
             @PathVariable("userId") Long userId,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String phone,
-            @RequestParam(required = false) String address,
-            @RequestParam(required = false) String city,
-            @RequestParam(required = false) String postcode
+            @RequestBody Map<String,Object> reqBody
             ){
+        String name = (String) reqBody.get("name");
+        String email = (String) reqBody.get("email");
+        String phone = (String) reqBody.get("phone");
+        String address = (String) reqBody.get("address");
+        String city = (String) reqBody.get("city");
+        String postcode = (String) reqBody.get("postcode");
+
         userService.updateUser(userId,name,email,phone,address,city,postcode);
     }
 

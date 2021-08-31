@@ -1,5 +1,6 @@
 package com.locus.ecommerce.user;
 
+import com.locus.ecommerce.exception.ApiRequestException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,13 +24,13 @@ public class UserService {
         Optional<User> userByEmail = userRepository.findUserByEmail(user.getEmail());
 
         if(userByEmail.isPresent()){
-            throw new IllegalStateException("User With Email Already Exists");
+            throw new ApiRequestException("User With Email Already Exists");
         }
 
         Optional<User> userByPhone = userRepository.findUserByPhone(user.getPhone());
 
         if(userByPhone.isPresent()){
-            throw new IllegalStateException("User With Phone Already Exists");
+            throw new ApiRequestException("User With Phone Already Exists");
         }
         user.setType(1);
         userRepository.save(user);
@@ -38,7 +39,7 @@ public class UserService {
     public void deleteUser(Long userId) {
         boolean exists = userRepository.existsById(userId);
         if(!exists) {
-            throw new IllegalStateException("User Not Found");
+            throw new ApiRequestException("User Not Found");
         };
         userRepository.deleteById(userId);
     }
@@ -46,7 +47,7 @@ public class UserService {
     @Transactional
     public void updateUser(Long userId,String name,String email,String phone,String address,String city,String postcode ) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException("User Not Found"));
+                .orElseThrow(() -> new ApiRequestException("User Not Found"));
 
         if (name != null && name.length() > 0 && !Objects.equals(user.getName(), name)) {
             user.setName(name);
@@ -54,7 +55,7 @@ public class UserService {
         if (email != null && !Objects.equals(user.getEmail(), email)) {
             Optional<User> existingUser = userRepository.findUserByEmail(email);
             if(existingUser.isPresent()){
-                throw new IllegalStateException("User With Email Already Exists");
+                throw new ApiRequestException("User With Email Already Exists");
             }
             user.setEmail(email);
         }

@@ -1,5 +1,6 @@
 package com.locus.ecommerce.product;
 
+import com.locus.ecommerce.exception.ApiRequestException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,7 +23,7 @@ public class ProductService {
     public Optional<Product> getOneProduct(Long productId) {
         Optional<Product> product = productRepository.findById(productId);
         if(!product.isPresent()){
-            throw new IllegalStateException("Product Not Found");
+            throw new ApiRequestException("Product Not Found");
         }
         return product;
     }
@@ -31,7 +32,7 @@ public class ProductService {
         Optional<Product> productBySku = productRepository.findProductBySku(product.getSku());
 
         if (productBySku.isPresent()) {
-            throw new IllegalStateException("Product With SKU Already Exists");
+            throw new ApiRequestException("Product With SKU Already Exists");
         }
         product.setStatus(1);
         productRepository.save(product);
@@ -40,7 +41,7 @@ public class ProductService {
     public void deleteProduct(Long productId) {
         boolean exists = productRepository.existsById(productId);
         if (!exists) {
-            throw new IllegalStateException("Product Not Found");
+            throw new ApiRequestException("Product Not Found");
         }
 
         productRepository.deleteById(productId);
@@ -49,7 +50,7 @@ public class ProductService {
     @Transactional
     public void updateProduct(Long productId, String name, String description, int regularPrice, int discountedPrice, int quantity, int status) {
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalStateException("Product Not Found"));
+                .orElseThrow(() -> new ApiRequestException("Product Not Found"));
 
         if (name != null && name.length() > 0 && !Objects.equals(product.getName(), name)) {
             product.setName(name);

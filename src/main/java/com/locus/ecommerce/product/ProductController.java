@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -39,13 +40,15 @@ public class ProductController {
     @PutMapping(path = "{productId}")
     public void updateProduct(
             @PathVariable("productId") Long productId,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String description,
-            @RequestParam(required = false) int regularPrice,
-            @RequestParam(required = false) int discountedPrice,
-            @RequestParam(required = false) int quantity,
-            @RequestParam(required = false) int status
+            @RequestBody Map<String,Object> reqBody
         ) {
+        String name = (String) reqBody.get("name");
+        String description = (String) reqBody.get("description");
+        int regularPrice = (int) reqBody.get("regularPrice");
+        int discountedPrice = (int) reqBody.get("discountedPrice");
+        int quantity = (int) reqBody.get("quantity");
+        int status = (int) reqBody.get("status");
+
         productService.updateProduct(productId, name, description, regularPrice, discountedPrice, quantity, status);
     }
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 @Table
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String sku;
     private String name;
