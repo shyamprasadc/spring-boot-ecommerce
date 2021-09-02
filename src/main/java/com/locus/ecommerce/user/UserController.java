@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "users")
+@RequestMapping(path = "api/users")
 public class UserController {
     private final UserService userService;
 
@@ -21,7 +21,7 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @PostMapping
+    @PostMapping(path = "/register")
     public void registerNewUser(@RequestBody User user){
         userService.addNewUser(user);
     }

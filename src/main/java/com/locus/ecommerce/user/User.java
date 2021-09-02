@@ -1,13 +1,22 @@
 package com.locus.ecommerce.user;
 
+import com.locus.ecommerce.role.Role;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
 @Table
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,7 +25,9 @@ public class User {
    private String email;
    private String phone;
    private String password;
-   private int type;
+   @ManyToMany(fetch = FetchType.EAGER)
+   private Collection<Role> roles = new ArrayList<>();
+   private int status;
    private String address;
    private String city;
    private String postcode;
@@ -25,134 +36,15 @@ public class User {
    @UpdateTimestamp
    private Date updatedAt;
 
-
-    public User() {
-    }
-
-    public User(Long id, String name, String email, String phone, String password, Integer type, String address, String city, String postcode) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-        this.type = type;
-        this.address = address;
-        this.city = city;
-        this.postcode = postcode;
-    }
-
-    public User(String name, String email, String phone, String password, Integer type, String address, String city, String postcode) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-        this.type = type;
-        this.address = address;
-        this.city = city;
-        this.postcode = postcode;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", type=" + type +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", postcode='" + postcode + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
+   public User(String name, String email, String phone, String password, Collection<Role> roles, int status, String address, String city, String postcode) {
+      this.name = name;
+      this.email = email;
+      this.phone = phone;
+      this.password = password;
+      this.roles = roles;
+      this.status = status;
+      this.address = address;
+      this.city = city;
+      this.postcode = postcode;
+   }
 }

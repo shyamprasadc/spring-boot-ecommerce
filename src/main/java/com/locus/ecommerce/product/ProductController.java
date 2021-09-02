@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "products")
+@RequestMapping(path = "api/products")
 public class ProductController {
     private final ProductService productService;
 

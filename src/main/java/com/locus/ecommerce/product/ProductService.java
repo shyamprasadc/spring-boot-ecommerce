@@ -1,6 +1,8 @@
 package com.locus.ecommerce.product;
 
 import com.locus.ecommerce.exception.ApiRequestException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -9,12 +11,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
+    @Autowired
     private final ProductRepository productRepository;
-
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
     public List<Product> getProducts() {
         return productRepository.findAll();
@@ -29,7 +29,7 @@ public class ProductService {
     }
 
     public void addNewProduct(Product product) {
-        Optional<Product> productBySku = productRepository.findProductBySku(product.getSku());
+        Optional<Product> productBySku = productRepository.findBySku(product.getSku());
 
         if (productBySku.isPresent()) {
             throw new ApiRequestException("Product With SKU Already Exists");

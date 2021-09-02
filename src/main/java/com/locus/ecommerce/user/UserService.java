@@ -1,38 +1,45 @@
 package com.locus.ecommerce.user;
 
 import com.locus.ecommerce.exception.ApiRequestException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
-public class UserService {
+@RequiredArgsConstructor
+public class UserService{
+    @Autowired
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getUsers(){
         return  userRepository.findAll();
     }
 
+    public Optional<User> getUserByEmail(String email){
+        return  userRepository.findByEmail(email);
+    }
+
+
     public void addNewUser(User user) {
-        Optional<User> userByEmail = userRepository.findUserByEmail(user.getEmail());
+        Optional<User> userByEmail = userRepository.findByEmail(user.getEmail());
 
         if(userByEmail.isPresent()){
             throw new ApiRequestException("User With Email Already Exists");
         }
 
-        Optional<User> userByPhone = userRepository.findUserByPhone(user.getPhone());
-
+        Optional<User> userByPhone = userRepository.findByPhone(user.getPhone());
+        System.out.println(userByPhone.toString());
         if(userByPhone.isPresent()){
             throw new ApiRequestException("User With Phone Already Exists");
         }
-        user.setType(1);
+        user.setStatus(1);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userRepository.save(user);
     }
 
@@ -53,7 +60,7 @@ public class UserService {
             user.setName(name);
         }
         if (email != null && !Objects.equals(user.getEmail(), email)) {
-            Optional<User> existingUser = userRepository.findUserByEmail(email);
+            Optional<User> existingUser = userRepository.findByEmail(email);
             if(existingUser.isPresent()){
                 throw new ApiRequestException("User With Email Already Exists");
             }
