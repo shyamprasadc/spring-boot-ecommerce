@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.locus.ecommerce.role.Role;
 import com.locus.ecommerce.user.User;
 import com.locus.ecommerce.user.UserService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,15 +19,14 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-@RequiredArgsConstructor
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "api/auth")
-public class Auth {
+public class AuthController {
     private final UserService userService;
 
     @PostMapping(path = "/refresh")
@@ -69,7 +68,7 @@ public class Auth {
                 response.setContentType(APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(),error);
             }
-        }else {
+        } else {
             throw new RuntimeException("Invalid Refresh Token");
         }
     }

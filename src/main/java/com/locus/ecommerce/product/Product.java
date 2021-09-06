@@ -10,14 +10,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table
+@Table(name = "products")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long productId;
     private String sku;
     private String name;
     private String description;

@@ -3,8 +3,10 @@ package com.locus.ecommerce.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,18 +28,19 @@ import java.util.stream.Collectors;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class SecurityAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+    @Autowired
     private final AuthenticationManager authenticationManager;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String userEmail = request.getParameter("username");
+        String username = request.getParameter("username");
         String password = request.getParameter("password");
-        log.info("UserEmail is: {}",userEmail);
-        log.info("UserPassword is: {}", password);
+        log.info("Username is: {}",username);
+        log.info("Password is: {}", password);
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userEmail,password);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,password);
         return authenticationManager.authenticate(authenticationToken);
 
     }

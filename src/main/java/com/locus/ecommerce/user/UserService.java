@@ -1,6 +1,7 @@
 package com.locus.ecommerce.user;
 
 import com.locus.ecommerce.exception.ApiRequestException;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,11 +11,11 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserService{
     @Autowired
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     public List<User> getUsers(){
         return  userRepository.findAll();

@@ -1,8 +1,7 @@
 package com.locus.ecommerce.product;
 
 import com.locus.ecommerce.exception.ApiRequestException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -11,9 +10,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ProductService {
-    @Autowired
     private final ProductRepository productRepository;
 
     public List<Product> getProducts() {
@@ -22,7 +20,7 @@ public class ProductService {
 
     public Optional<Product> getOneProduct(Long productId) {
         Optional<Product> product = productRepository.findById(productId);
-        if(!product.isPresent()){
+        if(product.isEmpty()){
             throw new ApiRequestException("Product Not Found");
         }
         return product;
