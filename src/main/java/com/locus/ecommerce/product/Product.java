@@ -30,7 +30,8 @@ public class Product {
     @UpdateTimestamp
     private Date updatedAt;
 
-    public Product(String sku, String name, String description, int regularPrice, int discountedPrice, int quantity, int status) {
+    public Product(String sku, String name, String description, int regularPrice, int discountedPrice, int quantity,
+            int status) {
         this.sku = sku;
         this.name = name;
         this.description = description;

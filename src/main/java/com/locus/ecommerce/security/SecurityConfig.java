@@ -1,7 +1,6 @@
 package com.locus.ecommerce.security;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,21 +23,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoderBean());
+        authenticationManagerBuilder.userDetailsService(userDetailsService)
+                .passwordEncoder(bCryptPasswordEncoderBean());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        SecurityAuthenticationFilter securityAuthenticationFilter= new SecurityAuthenticationFilter(authenticationManagerBean());
+        SecurityAuthenticationFilter securityAuthenticationFilter = new SecurityAuthenticationFilter(
+                authenticationManagerBean());
         securityAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/auth/**","/api/products/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/auth/**", "/api/products/**").permitAll();
         http.authorizeRequests().antMatchers("/api/users/register").permitAll();
         http.authorizeRequests().antMatchers("/api/users/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
-        http.addFilterBefore( new SecurityAuthorizationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new SecurityAuthorizationFilter(userDetailsService),
+                UsernamePasswordAuthenticationFilter.class);
         http.addFilter(securityAuthenticationFilter);
     }
 
@@ -49,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder bCryptPasswordEncoderBean(){
+    public PasswordEncoder bCryptPasswordEncoderBean() {
         return new BCryptPasswordEncoder();
     }
 }

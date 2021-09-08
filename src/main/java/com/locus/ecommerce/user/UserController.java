@@ -2,11 +2,8 @@ package com.locus.ecommerce.user;
 
 import com.locus.ecommerce.auth.AuthService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -18,25 +15,22 @@ public class UserController {
     private final AuthService authService;
 
     @GetMapping
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return userService.getUsers();
     }
 
     @PostMapping(path = "/register")
-    public void registerNewUser(@RequestBody User user){
+    public void registerNewUser(@RequestBody User user) {
         userService.addNewUser(user);
     }
 
-    @DeleteMapping(path="{userId}")
-    public void deleteUser(@PathVariable("userId") Long userId){
+    @DeleteMapping(path = "{userId}")
+    public void deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteUser(userId);
     }
 
-    @PutMapping(path="{userId}")
-    public void updateUser(
-            @PathVariable("userId") Long userId,
-            @RequestBody Map<String,Object> reqBody
-            ){
+    @PutMapping(path = "{userId}")
+    public void updateUser(@PathVariable("userId") Long userId, @RequestBody Map<String, Object> reqBody) {
         String name = (String) reqBody.get("name");
         String email = (String) reqBody.get("email");
         String phone = (String) reqBody.get("phone");
@@ -44,7 +38,7 @@ public class UserController {
         String city = (String) reqBody.get("city");
         String postcode = (String) reqBody.get("postcode");
 
-        userService.updateUser(userId,name,email,phone,address,city,postcode);
+        userService.updateUser(userId, name, email, phone, address, city, postcode);
     }
 
 }

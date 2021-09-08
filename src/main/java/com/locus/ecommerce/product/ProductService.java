@@ -20,7 +20,7 @@ public class ProductService {
 
     public Optional<Product> getOneProduct(Long productId) {
         Optional<Product> product = productRepository.findById(productId);
-        if(product.isEmpty()){
+        if (product.isEmpty()) {
             throw new ApiRequestException("Product Not Found");
         }
         return product;
@@ -46,7 +46,8 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProduct(Long productId, String name, String description, int regularPrice, int discountedPrice, int quantity, int status) {
+    public void updateProduct(Long productId, String name, String description, int regularPrice, int discountedPrice,
+            int quantity, int status) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ApiRequestException("Product Not Found"));
 

@@ -18,19 +18,23 @@ public class CartService {
     private final ProductRepository productRepository;
     private final AuthService authService;
 
-    public void addProduct(Long productId,int quantity) {
+    public void addProduct(Long productId, int quantity) {
         Optional<Product> product = productRepository.findById(productId);
 
         if (product.isEmpty()) {
             throw new ApiRequestException("Product Not Found");
         }
         User currentUser = authService.getCurrentUser();
-        Cart cart = new Cart(currentUser,product.get(),quantity);
+        Cart cart = new Cart(currentUser, product.get(), quantity);
         cartRepository.save(cart);
     }
 
     public List<Cart> getCartByUser() {
         User currentUser = authService.getCurrentUser();
         return cartRepository.findAllByUser(currentUser);
+    }
+
+    public void removeCartItem(Long cartId) {
+        cartRepository.deleteById(cartId);
     }
 }

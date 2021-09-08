@@ -1,6 +1,5 @@
 package com.locus.ecommerce.wishlist;
 
-import com.locus.ecommerce.cart.Cart;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +18,8 @@ public class WishlistController {
     }
 
     @PostMapping
-    public void addProduct(@RequestBody Map<String,Object> reqBody) {
-        Long productId = Long.parseLong(reqBody.get("productId").toString()) ;
+    public void addProduct(@RequestBody Map<String, Object> reqBody) {
+        Long productId = Long.parseLong(reqBody.get("productId").toString());
         wishlistService.addProduct(productId);
     }
 }

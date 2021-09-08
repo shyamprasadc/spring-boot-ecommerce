@@ -2,7 +2,6 @@ package com.locus.ecommerce.user;
 
 import com.locus.ecommerce.exception.ApiRequestException;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,30 +11,29 @@ import java.util.*;
 
 @Service
 @AllArgsConstructor
-public class UserService{
+public class UserService {
     @Autowired
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public List<User> getUsers(){
-        return  userRepository.findAll();
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 
-    public Optional<User> getUserByEmail(String email){
-        return  userRepository.findByEmail(email);
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
-
 
     public void addNewUser(User user) {
         Optional<User> userByEmail = userRepository.findByEmail(user.getEmail());
 
-        if(userByEmail.isPresent()){
+        if (userByEmail.isPresent()) {
             throw new ApiRequestException("User With Email Already Exists");
         }
 
         Optional<User> userByPhone = userRepository.findByPhone(user.getPhone());
         System.out.println(userByPhone.toString());
-        if(userByPhone.isPresent()){
+        if (userByPhone.isPresent()) {
             throw new ApiRequestException("User With Phone Already Exists");
         }
         user.setStatus(1);
@@ -46,23 +44,24 @@ public class UserService{
 
     public void deleteUser(Long userId) {
         boolean exists = userRepository.existsById(userId);
-        if(!exists) {
+        if (!exists) {
             throw new ApiRequestException("User Not Found");
-        };
+        }
+        ;
         userRepository.deleteById(userId);
     }
 
     @Transactional
-    public void updateUser(Long userId,String name,String email,String phone,String address,String city,String postcode ) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ApiRequestException("User Not Found"));
+    public void updateUser(Long userId, String name, String email, String phone, String address, String city,
+            String postcode) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ApiRequestException("User Not Found"));
 
         if (name != null && name.length() > 0 && !Objects.equals(user.getName(), name)) {
             user.setName(name);
         }
         if (email != null && !Objects.equals(user.getEmail(), email)) {
             Optional<User> existingUser = userRepository.findByEmail(email);
-            if(existingUser.isPresent()){
+            if (existingUser.isPresent()) {
                 throw new ApiRequestException("User With Email Already Exists");
             }
             user.setEmail(email);

@@ -1,7 +1,6 @@
 package com.locus.ecommerce.wishlist;
 
 import com.locus.ecommerce.auth.AuthService;
-import com.locus.ecommerce.cart.Cart;
 import com.locus.ecommerce.exception.ApiRequestException;
 import com.locus.ecommerce.product.Product;
 import com.locus.ecommerce.product.ProductRepository;
@@ -26,7 +25,7 @@ public class WishlistService {
             throw new ApiRequestException("Product Not Found");
         }
         User currentUser = authService.getCurrentUser();
-        Wishlist wishlist = new Wishlist(currentUser,product.get());
+        Wishlist wishlist = new Wishlist(currentUser, product.get());
         wishlistRepository.save(wishlist);
     }
 

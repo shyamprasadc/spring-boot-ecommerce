@@ -36,7 +36,8 @@ public class User {
    @UpdateTimestamp
    private Date updatedAt;
 
-   public User(String name, String email, String phone, String password, Collection<Role> roles, int status, String address, String city, String postcode) {
+   public User(String name, String email, String phone, String password, Collection<Role> roles, int status,
+         String address, String city, String postcode) {
       this.name = name;
       this.email = email;
       this.phone = phone;

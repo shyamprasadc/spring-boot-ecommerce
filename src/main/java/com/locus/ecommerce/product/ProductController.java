@@ -1,7 +1,6 @@
 package com.locus.ecommerce.product;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,10 +34,7 @@ public class ProductController {
     }
 
     @PutMapping(path = "{productId}")
-    public void updateProduct(
-            @PathVariable("productId") Long productId,
-            @RequestBody Map<String,Object> reqBody
-        ) {
+    public void updateProduct(@PathVariable("productId") Long productId, @RequestBody Map<String, Object> reqBody) {
         String name = (String) reqBody.get("name");
         String description = (String) reqBody.get("description");
         int regularPrice = (int) reqBody.get("regularPrice");

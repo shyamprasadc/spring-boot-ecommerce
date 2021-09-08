@@ -32,41 +32,39 @@ public class AuthController {
     @PostMapping(path = "/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if(authorizationHeader !=null && authorizationHeader.startsWith("Bearer ")){
-            try{
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            try {
                 String token = authorizationHeader.substring("Bearer ".length());
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(token);
                 String username = decodedJWT.getSubject();
                 Optional<User> user = userService.getUserByEmail(username);
-                if(user.isEmpty()){
+                if (user.isEmpty()) {
                     throw new RuntimeException("Invalid User");
                 }
-                String accessToken = JWT.create()
-                        .withSubject(user.get().getEmail())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10*60*1000))
+                String accessToken = JWT.create().withSubject(user.get().getEmail())
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 120 * 60 * 1000))
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles",user.get().getRoles().stream().map(Role::getName).collect(Collectors.toList()))
+                        .withClaim("roles",
+                                user.get().getRoles().stream().map(Role::getName).collect(Collectors.toList()))
                         .sign(algorithm);
 
-                String refreshToken = JWT.create()
-                        .withSubject(user.get().getEmail())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 30*60*1000))
-                        .withIssuer(request.getRequestURL().toString())
-                        .sign(algorithm);
+                String refreshToken = JWT.create().withSubject(user.get().getEmail())
+                        .withExpiresAt(new Date(System.currentTimeMillis() + 150 * 60 * 1000))
+                        .withIssuer(request.getRequestURL().toString()).sign(algorithm);
 
-                Map<String,String> tokens = new HashMap<>();
-                tokens.put("accessToken",accessToken);
-                tokens.put("refreshToken",refreshToken);
+                Map<String, String> tokens = new HashMap<>();
+                tokens.put("accessToken", accessToken);
+                tokens.put("refreshToken", refreshToken);
                 response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(),tokens);
-            } catch (Exception exception){
+                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+            } catch (Exception exception) {
                 response.setStatus(FORBIDDEN.value());
-                Map<String,String> error = new HashMap<>();
-                error.put("message",exception.getMessage());
+                Map<String, String> error = new HashMap<>();
+                error.put("message", exception.getMessage());
                 response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(),error);
+                new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
         } else {
             throw new RuntimeException("Invalid Refresh Token");
