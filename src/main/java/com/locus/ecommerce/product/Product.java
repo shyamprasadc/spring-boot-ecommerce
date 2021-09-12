@@ -21,6 +21,7 @@ public class Product {
     private String sku;
     private String name;
     private String description;
+    private String image;
     private int regularPrice;
     private int discountedPrice;
     private int quantity;
@@ -30,11 +31,12 @@ public class Product {
     @UpdateTimestamp
     private Date updatedAt;
 
-    public Product(String sku, String name, String description, int regularPrice, int discountedPrice, int quantity,
+    public Product(String sku, String name, String description, String image, int regularPrice, int discountedPrice, int quantity,
             int status) {
         this.sku = sku;
         this.name = name;
         this.description = description;
+        this.image = image;
         this.regularPrice = regularPrice;
         this.discountedPrice = discountedPrice;
         this.quantity = quantity;

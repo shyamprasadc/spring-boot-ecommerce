@@ -39,11 +39,11 @@ public class Seeder {
                         roleService.addRoleToUser(u1.getEmail(), r1.getName());
                         roleService.addRoleToUser(u2.getEmail(), r2.getName());
 
-                        Product p1 = new Product("usd23sk22i", "Levis T Shirt Size(L)", "Black Cotton T Shirt", 999,
+                        Product p1 = new Product("usd23sk22i", "Levis T Shirt Size(L)", "Black Cotton T Shirt","https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/14890656/2021/7/29/e9d3009d-d7c3-4b00-a865-3ca6f08166e21627549285569-Levis-Men-Tshirts-1961627549285187-1.jpg", 999,
                                         599, 10, 1);
-                        Product p2 = new Product("ler67rt234k", "Wrangler Shirt Size(M)", "Red Cotton Shirt", 2249,
+                        Product p2 = new Product("ler67rt234k", "Wrangler Shirt Size(M)", "Red Cotton Shirt","https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/productimage/2021/6/26/cf56ff99-a823-46a1-89d0-f92237dd78711624714986388-1.jpg", 2249,
                                         1799, 5, 1);
-                        Product p3 = new Product("jfs33aw93g", "Lee Jeans Size(32)", "Navy Blue Jeans", 2999, 1999, 20,
+                        Product p3 = new Product("jfs33aw93g", "Lee Jeans Size(32)", "Navy Blue Jeans","https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/15017184/2021/8/3/5b2f4887-4908-4368-a3ee-90ef9abb256d1627998842336LeeMenBlueSkinnyFitLightFadeJeans1.jpg", 2999, 1999, 20,
                                         1);
                         productRepository.saveAll(List.of(p1, p2, p3));
                 };
