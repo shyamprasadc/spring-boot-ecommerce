@@ -33,4 +33,8 @@ public class WishlistService {
         User currentUser = authService.getCurrentUser();
         return wishlistRepository.findAllByUser(currentUser);
     }
+
+    public void removeWishlistItem(Long wishlistId) {
+        wishlistRepository.deleteById(wishlistId);
+    }
 }

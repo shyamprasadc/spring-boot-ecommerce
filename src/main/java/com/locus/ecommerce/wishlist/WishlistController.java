@@ -22,4 +22,10 @@ public class WishlistController {
         Long productId = Long.parseLong(reqBody.get("productId").toString());
         wishlistService.addProduct(productId);
     }
+
+    @DeleteMapping
+    public void removeWishlistItem(@RequestBody Map<String, Object> reqBody) {
+        Long wishlistId = Long.parseLong(reqBody.get("wishlistId").toString());
+        wishlistService.removeWishlistItem(wishlistId);
+    }
 }

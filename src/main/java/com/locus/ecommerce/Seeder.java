@@ -41,11 +41,17 @@ public class Seeder {
 
                         Product p1 = new Product("usd23sk22i", "Levis T Shirt Size(L)", "Black Cotton T Shirt","https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/14890656/2021/7/29/e9d3009d-d7c3-4b00-a865-3ca6f08166e21627549285569-Levis-Men-Tshirts-1961627549285187-1.jpg", 999,
                                         599, 10, 1);
-                        Product p2 = new Product("ler67rt234k", "Wrangler Shirt Size(M)", "Red Cotton Shirt","https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/productimage/2021/6/26/cf56ff99-a823-46a1-89d0-f92237dd78711624714986388-1.jpg", 2249,
-                                        1799, 5, 1);
-                        Product p3 = new Product("jfs33aw93g", "Lee Jeans Size(32)", "Navy Blue Jeans","https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/15017184/2021/8/3/5b2f4887-4908-4368-a3ee-90ef9abb256d1627998842336LeeMenBlueSkinnyFitLightFadeJeans1.jpg", 2999, 1999, 20,
+                        Product p2 = new Product("jfs33aw93g", "Lee Jeans Size(32)", "Navy Blue Jeans","https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/15017184/2021/8/3/5b2f4887-4908-4368-a3ee-90ef9abb256d1627998842336LeeMenBlueSkinnyFitLightFadeJeans1.jpg", 2999, 1999, 20,
                                         1);
-                        productRepository.saveAll(List.of(p1, p2, p3));
+                        Product p3 = new Product("ols56uc43s", "U.S. Polo Assn. Jacket Size(L)", "Men Black Solid Bomber Jacket","https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/12916506/2020/12/9/021b2313-5e33-4249-8370-bb6569cacb5c1607504976384-US-Polo-Assn-Men-Jackets-2391607504974033-1.jpg", 6499, 3249, 10,
+                                1);
+                        Product p4 = new Product("ah43v7843n", "Nike Backpack", "Unisex Grey & Black Backpack","https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/11547560/2020/9/24/095d7c5b-37e3-49cd-a96b-7e79c1608aa91600918125113-Nike-Unisex-Grey--Black-BRSLA-Backpack-5051600918123485-1.jpg", 2495, 1871, 5,
+                                1);
+                        Product p5 = new Product("ler67rt234k", "Wrangler Shirt Size(M)", "Red Cotton Shirt","https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/productimage/2021/6/26/cf56ff99-a823-46a1-89d0-f92237dd78711624714986388-1.jpg", 2249,
+                                1799, 5, 1);
+                        Product p6 = new Product("24sj73jd78", "Puma Sneakers", "Men Black Pacer Styx IDP Sneakers","https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/11334994/2020/5/21/3d167b8c-e00e-4a53-9f3f-b7e4e2f2a4481590080005795PumaMenBlackPacerStyxIDPSneakers1.jpg", 4499, 2024, 2,
+                                1);
+                        productRepository.saveAll(List.of(p1, p2, p3, p4, p5, p6));
                 };
         }
 }
