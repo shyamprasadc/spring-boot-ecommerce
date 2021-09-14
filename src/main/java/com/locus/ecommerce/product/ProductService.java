@@ -18,6 +18,10 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<Product> getProductGroup(int groupId) {
+        return productRepository.findAllByGroupId(groupId);
+    }
+
     public Optional<Product> getOneProduct(Long productId) {
         Optional<Product> product = productRepository.findById(productId);
         if (product.isEmpty()) {
@@ -70,5 +74,4 @@ public class ProductService {
             product.setRegularPrice(status);
         }
     }
-
 }

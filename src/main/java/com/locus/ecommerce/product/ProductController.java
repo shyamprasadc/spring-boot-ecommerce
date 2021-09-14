@@ -23,6 +23,11 @@ public class ProductController {
         return productService.getOneProduct(productId);
     }
 
+    @GetMapping(path = "/groups/{groupId}")
+    public List<Product> getProductGroup(@PathVariable("groupId") int groupId) {
+        return productService.getProductGroup(groupId);
+    }
+
     @PostMapping
     public void addNewProduct(@RequestBody Product product) {
         productService.addNewProduct(product);

@@ -1,7 +1,7 @@
 package com.locus.ecommerce.user;
 
+import com.locus.ecommerce.auth.AuthService;
 import com.locus.ecommerce.exception.ApiRequestException;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,11 +10,14 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
-@AllArgsConstructor
 public class UserService {
     @Autowired
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private UserRepository userRepository;
+
 
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -22,6 +25,10 @@ public class UserService {
 
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User getUserProfile() {
+        return authService.getCurrentUser();
     }
 
     public void addNewUser(User user) {
@@ -53,7 +60,7 @@ public class UserService {
 
     @Transactional
     public void updateUser(Long userId, String name, String email, String phone, String address, String city,
-            String postcode) {
+                           String postcode) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ApiRequestException("User Not Found"));
 
         if (name != null && name.length() > 0 && !Objects.equals(user.getName(), name)) {

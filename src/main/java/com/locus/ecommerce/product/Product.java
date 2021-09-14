@@ -18,9 +18,11 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productId;
+    private int groupId;
     private String sku;
     private String name;
     private String description;
+    private String color;
     private String image;
     private int regularPrice;
     private int discountedPrice;
@@ -31,11 +33,14 @@ public class Product {
     @UpdateTimestamp
     private Date updatedAt;
 
-    public Product(String sku, String name, String description, String image, int regularPrice, int discountedPrice, int quantity,
+    public Product(
+            int groupId, String sku, String name, String description, String color, String image, int regularPrice, int discountedPrice, int quantity,
             int status) {
+        this.groupId = groupId;
         this.sku = sku;
         this.name = name;
         this.description = description;
+        this.color = color;
         this.image = image;
         this.regularPrice = regularPrice;
         this.discountedPrice = discountedPrice;

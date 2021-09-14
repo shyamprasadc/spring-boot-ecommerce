@@ -1,22 +1,25 @@
 package com.locus.ecommerce.user;
 
-import com.locus.ecommerce.auth.AuthService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping(path = "api/users")
 public class UserController {
-    private final UserService userService;
-    private final AuthService authService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public List<User> getUsers() {
         return userService.getUsers();
+    }
+
+    @GetMapping(path = "/profile")
+    public User getUserProfile() {
+        return userService.getUserProfile();
     }
 
     @PostMapping(path = "/register")

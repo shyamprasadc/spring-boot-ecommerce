@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.locus.ecommerce.role.Role;
 import com.locus.ecommerce.user.User;
 import com.locus.ecommerce.user.UserService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,10 +24,10 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping(path = "api/auth")
 public class AuthController {
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping(path = "/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
