@@ -2,6 +2,7 @@ package com.locus.ecommerce.user;
 
 import com.locus.ecommerce.auth.AuthService;
 import com.locus.ecommerce.exception.ApiRequestException;
+import com.locus.ecommerce.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,10 @@ public class UserService {
     @Autowired
     private AuthService authService;
     @Autowired
+    private RoleService roleService;
+    @Autowired
     private UserRepository userRepository;
+
 
 
     public List<User> getUsers() {
@@ -47,6 +51,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
+        roleService.addRoleToUser(user.getEmail(),"ROLE_CUSTOMER");
     }
 
     public void deleteUser(Long userId) {
