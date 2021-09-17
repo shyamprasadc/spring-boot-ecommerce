@@ -8,6 +8,7 @@ import com.locus.ecommerce.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ public class CartService {
     private final ProductRepository productRepository;
     private final AuthService authService;
 
+    @Transactional
     public void addProduct(Long productId, int quantity) {
         Optional<Product> product = productRepository.findById(productId);
 
@@ -25,8 +27,14 @@ public class CartService {
             throw new ApiRequestException("Product Not Found");
         }
         User currentUser = authService.getCurrentUser();
-        Cart cart = new Cart(currentUser, product.get(), quantity);
-        cartRepository.save(cart);
+
+        Optional<Cart> existingCartItem = cartRepository.findByProductAndUser(product.get(), currentUser);
+        if (existingCartItem.isPresent()) {
+            existingCartItem.get().setQuantity(existingCartItem.get().getQuantity() + quantity);
+        } else {
+            Cart cart = new Cart(currentUser, product.get(), quantity);
+            cartRepository.save(cart);
+        }
     }
 
     public List<Cart> getCartByUser() {
