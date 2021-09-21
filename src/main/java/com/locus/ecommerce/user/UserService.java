@@ -1,13 +1,14 @@
 package com.locus.ecommerce.user;
 
+import com.locus.ecommerce.address.AddressService;
 import com.locus.ecommerce.auth.AuthService;
 import com.locus.ecommerce.exception.ApiRequestException;
 import com.locus.ecommerce.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -19,9 +20,9 @@ public class UserService {
     @Autowired
     private RoleService roleService;
     @Autowired
+    private AddressService addressService;
+    @Autowired
     private UserRepository userRepository;
-
-
 
     public List<User> getUsers() {
         return userRepository.findAll();
@@ -35,23 +36,24 @@ public class UserService {
         return authService.getCurrentUser();
     }
 
-    public void addNewUser(User user) {
-        Optional<User> userByEmail = userRepository.findByEmail(user.getEmail());
-
+    public void addNewUser(String name, String email, String phone, String password, String address, String city, String postcode) {
+        Optional<User> userByEmail = userRepository.findByEmail(email);
         if (userByEmail.isPresent()) {
             throw new ApiRequestException("User With Email Already Exists");
         }
 
-        Optional<User> userByPhone = userRepository.findByPhone(user.getPhone());
-        System.out.println(userByPhone.toString());
+        Optional<User> userByPhone = userRepository.findByPhone(phone);
         if (userByPhone.isPresent()) {
             throw new ApiRequestException("User With Phone Already Exists");
         }
+
+        User user = new User(name, email, phone, password);
         user.setStatus(1);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
-        roleService.addRoleToUser(user.getEmail(),"ROLE_CUSTOMER");
+        roleService.addRoleToUser(user.getEmail(), "ROLE_CUSTOMER");
+        addressService.addAddressOfUser(user.getEmail(), address, city, postcode);
     }
 
     public void deleteUser(Long userId) {
@@ -59,13 +61,11 @@ public class UserService {
         if (!exists) {
             throw new ApiRequestException("User Not Found");
         }
-        ;
         userRepository.deleteById(userId);
     }
 
     @Transactional
-    public void updateUser(Long userId, String name, String email, String phone, String address, String city,
-                           String postcode) {
+    public void updateUser(Long userId, String name, String email, String phone) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ApiRequestException("User Not Found"));
 
         if (name != null && name.length() > 0 && !Objects.equals(user.getName(), name)) {
@@ -80,15 +80,6 @@ public class UserService {
         }
         if (phone != null && phone.length() > 0 && !Objects.equals(user.getPhone(), phone)) {
             user.setPhone(phone);
-        }
-        if (address != null && address.length() > 0 && !Objects.equals(user.getAddress(), address)) {
-            user.setAddress(address);
-        }
-        if (city != null && city.length() > 0 && !Objects.equals(user.getCity(), city)) {
-            user.setCity(city);
-        }
-        if (postcode != null && postcode.length() > 0 && !Objects.equals(user.getPostcode(), postcode)) {
-            user.setPostcode(postcode);
         }
     }
 }

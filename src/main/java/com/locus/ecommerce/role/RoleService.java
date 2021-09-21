@@ -2,17 +2,18 @@ package com.locus.ecommerce.role;
 
 import com.locus.ecommerce.user.User;
 import com.locus.ecommerce.user.UserRepository;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class RoleService {
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Transactional
     public void addRoleToUser(String email, String roleName) {

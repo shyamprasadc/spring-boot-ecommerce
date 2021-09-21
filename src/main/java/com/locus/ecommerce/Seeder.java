@@ -1,5 +1,6 @@
 package com.locus.ecommerce;
 
+import com.locus.ecommerce.address.AddressService;
 import com.locus.ecommerce.product.Product;
 import com.locus.ecommerce.product.ProductRepository;
 import com.locus.ecommerce.role.Role;
@@ -19,18 +20,19 @@ import java.util.List;
 public class Seeder {
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository, RoleRepository roleRepository,
-                                        ProductRepository productRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
+                                        ProductRepository productRepository, RoleService roleService, AddressService addressService, PasswordEncoder passwordEncoder) {
         return args -> {
             Role r1 = new Role("ROLE_CUSTOMER");
             Role r2 = new Role("ROLE_ADMIN");
 
             roleRepository.saveAll(List.of(r1, r2));
 
-            User u1 = new User("shyam", "shyamc@locus.sh", "8136818533", "Password123#", new ArrayList<>(),
-                    1, "Vadakara", "Kozhikode", "673507");
-            User u2 = new User("admin", "admin@locus.sh", "8136818533", "Password123#", new ArrayList<>(),
-                    1, "test", "test", "test");
+            User u1 = new User("shyam", "shyamc@locus.sh", "8136818533", "Password123#");
+            User u2 = new User("admin", "admin@locus.sh", "8136818533", "Password123#");
 
+            u1.setStatus(1);
+            u2.setStatus(1);
+            
             u1.setPassword(passwordEncoder.encode(u1.getPassword()));
             u2.setPassword(passwordEncoder.encode(u2.getPassword()));
 
@@ -38,6 +40,9 @@ public class Seeder {
 
             roleService.addRoleToUser(u1.getEmail(), r1.getName());
             roleService.addRoleToUser(u2.getEmail(), r2.getName());
+
+            addressService.addAddressOfUser(u1.getEmail(), "vadakara", "kozhikode", "673507");
+            addressService.addAddressOfUser(u2.getEmail(), "test", "test", "000000");
 
             Product p1 = new Product(0, "usd23sk22i", "Levis T Shirt", "Black Cotton T Shirt", "black", "https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/14890656/2021/7/29/e9d3009d-d7c3-4b00-a865-3ca6f08166e21627549285569-Levis-Men-Tshirts-1961627549285187-1.jpg", 999,
                     599, 10, 1);

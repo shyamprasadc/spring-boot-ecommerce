@@ -1,6 +1,6 @@
 package com.locus.ecommerce.product;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping(path = "api/products")
 public class ProductController {
-    private final ProductService productService;
+    @Autowired
+    private ProductService productService;
 
     @GetMapping
     public List<Product> getProducts() {

@@ -23,8 +23,16 @@ public class UserController {
     }
 
     @PostMapping(path = "/register")
-    public void registerNewUser(@RequestBody User user) {
-        userService.addNewUser(user);
+    public void registerNewUser(@RequestBody Map<String, Object> reqBody) {
+        String name = (String) reqBody.get("name");
+        String email = (String) reqBody.get("email");
+        String phone = (String) reqBody.get("phone");
+        String password = (String) reqBody.get("password");
+        String address = (String) reqBody.get("address");
+        String city = (String) reqBody.get("city");
+        String postcode = (String) reqBody.get("postcode");
+
+        userService.addNewUser(name, email, phone, password, address, city, postcode);
     }
 
     @DeleteMapping(path = "{userId}")
@@ -37,11 +45,8 @@ public class UserController {
         String name = (String) reqBody.get("name");
         String email = (String) reqBody.get("email");
         String phone = (String) reqBody.get("phone");
-        String address = (String) reqBody.get("address");
-        String city = (String) reqBody.get("city");
-        String postcode = (String) reqBody.get("postcode");
 
-        userService.updateUser(userId, name, email, phone, address, city, postcode);
+        userService.updateUser(userId, name, email, phone);
     }
 
 }

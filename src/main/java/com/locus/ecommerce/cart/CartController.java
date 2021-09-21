@@ -1,16 +1,16 @@
 package com.locus.ecommerce.cart;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping(path = "api/cart")
 public class CartController {
-    private final CartService cartService;
+    @Autowired
+    private CartService cartService;
 
     @GetMapping
     public List<Cart> getCartByUser() {

@@ -1,16 +1,16 @@
 package com.locus.ecommerce.wishlist;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping(path = "api/wishlist")
 public class WishlistController {
-    private final WishlistService wishlistService;
+    @Autowired
+    private WishlistService wishlistService;
 
     @GetMapping
     public List<Wishlist> getWishlistByUser() {

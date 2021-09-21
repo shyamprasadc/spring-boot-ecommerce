@@ -18,34 +18,25 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-   @Id
-   @GeneratedValue(strategy = GenerationType.AUTO)
-   private Long userId;
-   private String name;
-   private String email;
-   private String phone;
-   private String password;
-   @ManyToMany(fetch = FetchType.EAGER)
-   private Collection<Role> roles = new ArrayList<>();
-   private int status;
-   private String address;
-   private String city;
-   private String postcode;
-   @CreationTimestamp
-   private Date createdAt;
-   @UpdateTimestamp
-   private Date updatedAt;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userId;
+    private String name;
+    private String email;
+    private String phone;
+    private String password;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
+    private int status;
+    @CreationTimestamp
+    private Date createdAt;
+    @UpdateTimestamp
+    private Date updatedAt;
 
-   public User(String name, String email, String phone, String password, Collection<Role> roles, int status,
-         String address, String city, String postcode) {
-      this.name = name;
-      this.email = email;
-      this.phone = phone;
-      this.password = password;
-      this.roles = roles;
-      this.status = status;
-      this.address = address;
-      this.city = city;
-      this.postcode = postcode;
-   }
+    public User(String name, String email, String phone, String password) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+    }
 }
