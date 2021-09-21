@@ -3,6 +3,7 @@ package com.locus.ecommerce.security;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -42,10 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/auth/**" ).permitAll();
-        http.authorizeRequests().antMatchers("/api/products/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/users/register").permitAll();
-        http.authorizeRequests().antMatchers("/api/users/profile").hasAnyAuthority("ROLE_ADMIN","ROLE_CUSTOMER");
+        http.authorizeRequests().antMatchers("/api/auth/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/products").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/products/{productId}").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/products/groups/{groupId}").permitAll();
+        http.authorizeRequests().antMatchers("/api/products/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/users/register").permitAll();
+        http.authorizeRequests().antMatchers("/api/users/profile").hasAnyAuthority("ROLE_ADMIN", "ROLE_CUSTOMER");
         http.authorizeRequests().antMatchers("/api/users/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore(new SecurityAuthorizationFilter(userDetailsService),
