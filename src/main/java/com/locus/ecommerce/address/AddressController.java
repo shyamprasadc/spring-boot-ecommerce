@@ -32,4 +32,9 @@ public class AddressController {
         String postcode = (String) reqBody.get("postcode");
         addressService.updateAddress(addressId, address, city, postcode);
     }
+
+    @DeleteMapping(path = "{addressId}")
+    public void deleteAddress(@PathVariable("addressId") Long addressId) {
+        addressService.deleteAddress(addressId);
+    }
 }

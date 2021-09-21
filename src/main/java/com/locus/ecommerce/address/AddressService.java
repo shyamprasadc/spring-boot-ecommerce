@@ -53,4 +53,8 @@ public class AddressService {
             existingAddress.setPostcode(postcode);
         }
     }
+
+    public void deleteAddress(Long addressId) {
+        addressRepository.deleteById(addressId);
+    }
 }
