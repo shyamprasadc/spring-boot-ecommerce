@@ -24,6 +24,8 @@ public class Product {
     private String description;
     private String color;
     private String image;
+    private String image2;
+    private String image3;
     private int regularPrice;
     private int discountedPrice;
     private int quantity;
@@ -34,7 +36,7 @@ public class Product {
     private Date updatedAt;
 
     public Product(
-            int groupId, String sku, String name, String description, String color, String image, int regularPrice, int discountedPrice, int quantity,
+            int groupId, String sku, String name, String description, String color, String image, String image2, String image3, int regularPrice, int discountedPrice, int quantity,
             int status) {
         this.groupId = groupId;
         this.sku = sku;
@@ -42,6 +44,8 @@ public class Product {
         this.description = description;
         this.color = color;
         this.image = image;
+        this.image2 = image2;
+        this.image3 = image3;
         this.regularPrice = regularPrice;
         this.discountedPrice = discountedPrice;
         this.quantity = quantity;
