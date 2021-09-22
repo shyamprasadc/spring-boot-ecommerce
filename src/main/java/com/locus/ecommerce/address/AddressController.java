@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/address")
@@ -15,6 +16,11 @@ public class AddressController {
     @GetMapping
     public List<Address> getAddressByUser() {
         return addressService.getAddressByUser();
+    }
+
+    @GetMapping(path = "{addressId}")
+    public Optional<Address> getOneAddress(@PathVariable("addressId") Long addressId) {
+        return addressService.getOneAddress(addressId);
     }
 
     @PostMapping

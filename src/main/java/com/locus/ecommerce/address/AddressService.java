@@ -21,6 +21,14 @@ public class AddressService {
     @Autowired
     private UserRepository userRepository;
 
+    public Optional<Address> getOneAddress(Long addressId) {
+        Optional<Address> address = addressRepository.findById(addressId);
+        if (address.isEmpty()) {
+            throw new ApiRequestException("Address Not Found");
+        }
+        return address;
+    }
+
     public List<Address> getAddressByUser() {
         User currentUser = authService.getCurrentUser();
         return addressRepository.findAllByUser(currentUser);
