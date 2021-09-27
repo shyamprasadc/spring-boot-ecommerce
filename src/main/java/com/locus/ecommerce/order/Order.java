@@ -1,6 +1,7 @@
-package com.locus.ecommerce.user;
+package com.locus.ecommerce.order;
 
-import com.locus.ecommerce.role.Role;
+import com.locus.ecommerce.orderProduct.OrderProduct;
+import com.locus.ecommerce.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,31 +16,31 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Table(name = "users")
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
-    private String name;
-    private String email;
-    private String phone;
-    private String password;
+    private Long orderId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private User user;
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Collection<Role> roles = new ArrayList<>();
+    private Collection<OrderProduct> orderProducts = new ArrayList<>();
     private int status;
+    private int totalPrice;
     @CreationTimestamp
     private Date createdAt;
     @UpdateTimestamp
     private Date updatedAt;
 
-    public User(String name, String email, String phone, String password) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
+    public Order(User user, Collection<OrderProduct> orderProducts, int status, int totalPrice) {
+        this.user = user;
+        this.orderProducts = orderProducts;
+        this.status = status;
+        this.totalPrice = totalPrice;
     }
 }
