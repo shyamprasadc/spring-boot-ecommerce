@@ -33,7 +33,7 @@ public class WishlistService {
 
     public List<Wishlist> getWishlistByUser() {
         User currentUser = authService.getCurrentUser();
-        return wishlistRepository.findAllByUser(currentUser);
+        return wishlistRepository.findAllByUserOrderByCreatedAtDesc(currentUser);
     }
 
     public void removeWishlistItem(Long wishlistId) {

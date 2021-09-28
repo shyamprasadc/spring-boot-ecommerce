@@ -35,7 +35,7 @@ public class OrderService {
 
     public List<Order> getOrdersByUser() {
         User currentUser = authService.getCurrentUser();
-        return orderRepository.findAllByUser(currentUser);
+        return orderRepository.findAllByUserOrderByCreatedAtDesc(currentUser);
     }
 
     @Transactional
@@ -47,7 +47,7 @@ public class OrderService {
             throw new ApiRequestException("Address Not Found");
         }
 
-        List<Cart> currentUserCart = cartRepository.findAllByUser(currentUser);
+        List<Cart> currentUserCart = cartRepository.findAllByUserOrderByCreatedAtDesc(currentUser);
         if (currentUserCart.isEmpty()) {
             throw new ApiRequestException("Cart Is Empty");
         }

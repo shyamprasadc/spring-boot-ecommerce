@@ -2,7 +2,6 @@ package com.locus.ecommerce.cart;
 
 import com.locus.ecommerce.auth.AuthService;
 import com.locus.ecommerce.exception.ApiRequestException;
-import com.locus.ecommerce.orderProduct.OrderProduct;
 import com.locus.ecommerce.product.Product;
 import com.locus.ecommerce.product.ProductRepository;
 import com.locus.ecommerce.user.User;
@@ -42,21 +41,21 @@ public class CartService {
 
     public List<Cart> getCartByUser() {
         User currentUser = authService.getCurrentUser();
-        return cartRepository.findAllByUser(currentUser);
+        return cartRepository.findAllByUserOrderByCreatedAtDesc(currentUser);
     }
 
-    public int getCartTotalByUser(){
+    public int getCartTotalByUser() {
         User currentUser = authService.getCurrentUser();
-        List<Cart> currentUserCart = cartRepository.findAllByUser(currentUser);
-        if(currentUserCart.isEmpty()){
+        List<Cart> currentUserCart = cartRepository.findAllByUserOrderByCreatedAtDesc(currentUser);
+        if (currentUserCart.isEmpty()) {
             throw new ApiRequestException("Cart Is Empty");
         }
 
-        int sum = 0;
-        for(Cart cart: currentUserCart){
-            sum += cart.getProduct().getDiscountedPrice();
+        int totalPrice = 0;
+        for (Cart cart : currentUserCart) {
+            totalPrice += cart.getProduct().getDiscountedPrice();
         }
-        return sum;
+        return totalPrice;
     }
 
     public void removeCartItem(Long cartId) {

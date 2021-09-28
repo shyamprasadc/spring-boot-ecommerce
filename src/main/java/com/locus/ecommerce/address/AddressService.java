@@ -31,7 +31,7 @@ public class AddressService {
 
     public List<Address> getAddressByUser() {
         User currentUser = authService.getCurrentUser();
-        return addressRepository.findAllByUser(currentUser);
+        return addressRepository.findAllByUserOrderByCreatedAtDesc(currentUser);
     }
 
     public void addAddress(String address, String city, String postcode) {
