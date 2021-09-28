@@ -39,8 +39,9 @@ public class PaymentController {
         Order razorpayOrder = razorpay.Orders.create(orderRequest);
 
         Map<String, String> order = new HashMap<>();
-        order.put("razorpayOrderId", razorpayOrder.get("id").toString());
+        order.put("orderId", razorpayOrder.get("id").toString());
         order.put("amount", razorpayOrder.get("amount").toString());
+        order.put("currency",razorpayOrder.get("currency").toString());
         order.put("receipt",razorpayOrder.get("receipt").toString());
         order.put("status",razorpayOrder.get("status").toString());
         return order;
