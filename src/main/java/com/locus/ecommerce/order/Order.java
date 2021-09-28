@@ -1,5 +1,6 @@
 package com.locus.ecommerce.order;
 
+import com.locus.ecommerce.address.Address;
 import com.locus.ecommerce.orderProduct.OrderProduct;
 import com.locus.ecommerce.user.User;
 import lombok.AllArgsConstructor;
@@ -27,9 +28,13 @@ public class Order {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "addressId", referencedColumnName = "addressId")
+    private Address address;
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     private Collection<OrderProduct> orderProducts = new ArrayList<>();
+    private String processId;
     private int status;
     private int totalPrice;
     @CreationTimestamp
@@ -37,9 +42,11 @@ public class Order {
     @UpdateTimestamp
     private Date updatedAt;
 
-    public Order(User user, Collection<OrderProduct> orderProducts, int status, int totalPrice) {
+    public Order(User user, Address address, Collection<OrderProduct> orderProducts, String processId, int status, int totalPrice) {
         this.user = user;
+        this.address = address;
         this.orderProducts = orderProducts;
+        this.processId = processId;
         this.status = status;
         this.totalPrice = totalPrice;
     }

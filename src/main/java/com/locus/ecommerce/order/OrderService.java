@@ -1,5 +1,7 @@
 package com.locus.ecommerce.order;
 
+import com.locus.ecommerce.address.Address;
+import com.locus.ecommerce.address.AddressRepository;
 import com.locus.ecommerce.auth.AuthService;
 import com.locus.ecommerce.cart.Cart;
 import com.locus.ecommerce.cart.CartRepository;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -23,6 +26,8 @@ public class OrderService {
     private CartService cartService;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private AddressRepository addressRepository;
     @Autowired
     private OrderProductRepository orderProductRepository;
     @Autowired
@@ -34,22 +39,28 @@ public class OrderService {
     }
 
     @Transactional
-    public void createOrder() {
+    public void createOrder(Long addressId, String processId) {
         User currentUser = authService.getCurrentUser();
+
+        Optional<Address> address = addressRepository.findById(addressId);
+        if (address.isEmpty()) {
+            throw new ApiRequestException("Address Not Found");
+        }
+
         List<Cart> currentUserCart = cartRepository.findAllByUser(currentUser);
-        if(currentUserCart.isEmpty()){
+        if (currentUserCart.isEmpty()) {
             throw new ApiRequestException("Cart Is Empty");
         }
 
         List<OrderProduct> orderProducts = new ArrayList<>();
-        int sum = 0;
+        int totalPrice = 0;
 
-        for(Cart cart: currentUserCart){
-            orderProducts.add(orderProductRepository.save(new OrderProduct(cart.getProduct(),cart.getQuantity())));
-            sum += cart.getProduct().getDiscountedPrice();
+        for (Cart cart : currentUserCart) {
+            orderProducts.add(orderProductRepository.save(new OrderProduct(cart.getProduct(), cart.getQuantity())));
+            totalPrice += cart.getProduct().getDiscountedPrice();
         }
 
-        Order order = new Order(currentUser,orderProducts,1,sum);
+        Order order = new Order(currentUser, address.get(), orderProducts, processId, 1, totalPrice);
         orderRepository.save(order);
         cartRepository.deleteAllByUser(currentUser);
     }

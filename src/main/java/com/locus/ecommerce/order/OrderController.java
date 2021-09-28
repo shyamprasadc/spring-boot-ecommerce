@@ -1,12 +1,10 @@
 package com.locus.ecommerce.order;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/orders")
@@ -20,7 +18,9 @@ public class OrderController {
     }
 
     @PostMapping
-    public void createOrder(){
-        orderService.createOrder();
+    public void createOrder(@RequestBody Map<String, Object> reqBody) {
+        Long addressId = Long.parseLong(reqBody.get("addressId").toString());
+        String processId = reqBody.get("processId").toString();
+        orderService.createOrder(addressId, processId);
     }
 }
